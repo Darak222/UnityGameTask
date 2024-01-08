@@ -3,20 +3,15 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.TextCore.Text;
 
 public class CharacterMovement : MonoBehaviour
 {
-    [SerializeField] float minSpeedRange = 0f;
-    [SerializeField] float maxSpeedRange = 10f;
+    [SerializeField] CharacterConfigSO characterConfig;
+    [SerializeField] bool isChosen = false;
 
-    [SerializeField] float minAngularSpeedRange = -30f;
-    [SerializeField] float maxAngularSpeedRange = 100f;
-
-    [SerializeField] float minStaminaRange = 10f;
-    [SerializeField] float maxStaminaRange = 100f;
-
-    [SerializeField] float exhaustionRate = 1.5f;
-    [SerializeField] float staminaRegenerationRate = 2f;
+    float exhaustionRate;
+    float staminaRegenerationRate;
 
     float stamina;
     float initialStamina;
@@ -27,10 +22,12 @@ public class CharacterMovement : MonoBehaviour
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        agent.speed += Random.Range(minSpeedRange, maxSpeedRange);
-        agent.angularSpeed += Random.Range(minAngularSpeedRange, maxAngularSpeedRange);
-        stamina = Random.Range(minStaminaRange, maxStaminaRange);
+        agent.speed += characterConfig.GenerateSpeedValue();
+        agent.angularSpeed += characterConfig.GenerateAngularSpeedValue();
+        stamina = characterConfig.GenerateStaminaValue();
         initialStamina = stamina;
+        exhaustionRate = characterConfig.GetExhaustionRate();
+        staminaRegenerationRate = characterConfig.GetStaminaRegenerationRate();
     }
 
     void Update()
@@ -38,6 +35,7 @@ public class CharacterMovement : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             MoveToPoint();
+            Debug.Log(stamina);
         }
 
         if (agent.velocity != Vector3.zero)
