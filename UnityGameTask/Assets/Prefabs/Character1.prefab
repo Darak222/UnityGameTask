@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3445417803521264890}
   - component: {fileID: 2693460124257923041}
   - component: {fileID: 5206354451791064292}
-  - component: {fileID: 6715996142650042783}
   - component: {fileID: 3762428518914136077}
   m_Layer: 0
   m_Name: Character1
@@ -109,18 +108,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6715996142650042783
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7736706130550367143}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a1df6e2be220524b9208b7b6535440b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3762428518914136077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,3 +120,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a1df6e2be220524b9208b7b6535440b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minSpeedRange: 0
+  maxSpeedRange: 10
+  minAngularSpeedRange: -30
+  maxAngularSpeedRange: 100
+  minStaminaRange: 10
+  maxStaminaRange: 100
+  exhaustionRate: 1.5
+  staminaRegenerationRate: 2
