@@ -8,7 +8,9 @@ using UnityEngine.TextCore.Text;
 public class CharacterMovement : MonoBehaviour
 {
     [SerializeField] CharacterConfigSO characterConfig;
+
     [SerializeField] bool isChosen = false;
+    [SerializeField] GameObject playerToFollow;
 
     float exhaustionRate;
     float staminaRegenerationRate;
@@ -32,21 +34,25 @@ public class CharacterMovement : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            MoveToPoint();
-            Debug.Log(stamina);
-        }
+        if (isChosen){
+            if (Input.GetMouseButtonDown(0))
+            {
+                MoveToPoint();
+            }
 
-        if (agent.velocity != Vector3.zero)
-        {
-            DepleteStamina();
+            if (agent.velocity != Vector3.zero)
+            {
+                DepleteStamina();
+            }
+            else
+            {
+                RegenerateStamina();
+            }
         }
         else
         {
-            RegenerateStamina();
+            FollowPlayer();
         }
-
 
     }
 
@@ -72,6 +78,24 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Follower" && isChosen)
+        {
+            other.GetComponent<NavMeshAgent>().destination = other.transform.position;
+            other.GetComponent<NavMeshAgent>().isStopped = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Follower" && isChosen)
+        {
+            other.GetComponent<NavMeshAgent>().destination = playerToFollow.transform.position;
+            other.GetComponent<NavMeshAgent>().isStopped = false;
+        }
+    }
+
     public void RegenerateStamina()
     {
         if (isExhausted && initialStamina != stamina)
@@ -93,4 +117,14 @@ public class CharacterMovement : MonoBehaviour
             }
         }
     }
+
+    public void FollowPlayer()
+    {
+        if (stamina != initialStamina)
+        {
+            RegenerateStamina();
+        }
+        agent.destination = playerToFollow.transform.position;
+    }
+
 }

@@ -19,8 +19,6 @@ public class CharacterConfigSO : ScriptableObject
     [SerializeField] float exhaustionRate = 1.5f;
     [SerializeField] float staminaRegenerationRate = 2f;
 
-    [SerializeField] bool isChosen = false;
-
     public float GenerateSpeedValue()
     {
         return Random.Range(minSpeedRange, maxSpeedRange);
