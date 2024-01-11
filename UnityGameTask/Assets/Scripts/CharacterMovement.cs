@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
 using UnityEngine.TextCore.Text;
 
 public class CharacterMovement : MonoBehaviour
 {
     [SerializeField] CharacterConfigSO characterConfig;
 
-    [SerializeField] bool isChosen = false;
-    [SerializeField] GameObject playerToFollow;
+    [SerializeField] public bool isChosen = false;
+    [SerializeField] public GameObject playerToFollow;
 
     float exhaustionRate;
     float staminaRegenerationRate;
@@ -58,6 +59,11 @@ public class CharacterMovement : MonoBehaviour
 
     private void MoveToPoint()
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         bool hasHit = Physics.Raycast(ray, out hit);
@@ -93,6 +99,15 @@ public class CharacterMovement : MonoBehaviour
         {
             other.GetComponent<NavMeshAgent>().destination = playerToFollow.transform.position;
             other.GetComponent<NavMeshAgent>().isStopped = false;
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "Follower" && isChosen)
+        {
+            other.GetComponent<NavMeshAgent>().destination = other.transform.position;
+            other.GetComponent<NavMeshAgent>().isStopped = true;
         }
     }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    [SerializeField] private Transform target;
+    [SerializeField] public Transform target;
     [SerializeField] private float smoothCameraTime;
     
     private Vector3 currentVelocity = Vector3.zero;
