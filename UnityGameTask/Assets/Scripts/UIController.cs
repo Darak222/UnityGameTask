@@ -3,21 +3,42 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIController : MonoBehaviour
 {
     [Header("Playable Characters")]
     [SerializeField] List<GameObject> charactersList;
 
-    [Header("Character Selection Buttons")]
+    [Header("Selection Buttons")]
     [SerializeField] GameObject[] characterSelectionButtons;
 
-    Camera mainCamera;
+    [Header("Character Statistics")]
+    [SerializeField] TextMeshProUGUI speedInfo;
+    [SerializeField] TextMeshProUGUI angularSpeedInfo;
+    [SerializeField] TextMeshProUGUI staminaTextInfo;
 
-    void Start()
+    [Header("Stamina Slider")]
+    [SerializeField] Slider staminaSlider;
+
+    Camera mainCamera;
+    CharacterMovement chosenCharacter;
+
+    void Awake()
     {
         mainCamera = FindObjectOfType<Camera>();
         InitializeButtons();
+        GetChosenCharacter();
+    }
+
+    void Start()
+    {
+        SetStaminaBarMaxValue();
+    }
+
+    void Update()
+    {
+        DisplayStats();
     }
 
     private void InitializeButtons()
@@ -32,11 +53,26 @@ public class UIController : MonoBehaviour
         }
     }
 
+    private void GetChosenCharacter()
+    {
+        for(int i = 0; i < charactersList.Count; i++)
+        {
+            CharacterMovement character = charactersList[i].GetComponent<CharacterMovement>();
+            if (character.isChosen)
+            {
+                chosenCharacter = character;
+                break;
+            }
+        }
+    }
+
     public void ChoseCharacter(int index)
     {
         SetNewButtonState(index);
         SetNewCharacterTarget(index);
         SetNewCameraTarget(index);
+        GetChosenCharacter();
+        SetStaminaBarMaxValue();
     }
 
     private void SetNewButtonState(int index)
@@ -73,7 +109,6 @@ public class UIController : MonoBehaviour
                 character.tag = "Follower";
                 character.playerToFollow = charactersList[index];
                 character.GetComponent<NavMeshAgent>().destination = character.transform.position;
-                Debug.Log(character.playerToFollow);
             }
         }
     }
@@ -82,6 +117,18 @@ public class UIController : MonoBehaviour
     {
         CameraMovement newTarget = mainCamera.GetComponent<CameraMovement>();
         newTarget.target = charactersList[index].transform;
-        Debug.Log(newTarget.target.transform.position);
+    }
+
+    private void SetStaminaBarMaxValue()
+    {
+        staminaSlider.maxValue = chosenCharacter.GetInitialStaminaValue();
+    }
+
+    public void DisplayStats()
+    {
+        speedInfo.text = "Speed: " + chosenCharacter.GetSpeedValue();
+        angularSpeedInfo.text = "Angular Speed: " + chosenCharacter.GetAngularSpeedValue();
+        staminaTextInfo.text = chosenCharacter.GetCurrentStaminaValue() + "/" + chosenCharacter.GetInitialStaminaValue();
+        staminaSlider.value = chosenCharacter.GetCurrentStaminaValue();
     }
 }

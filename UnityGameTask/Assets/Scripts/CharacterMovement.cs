@@ -41,7 +41,7 @@ public class CharacterMovement : MonoBehaviour
                 MoveToPoint();
             }
 
-            if (agent.velocity != Vector3.zero)
+            if (agent.velocity != Vector3.zero && agent.destination != agent.transform.position)
             {
                 DepleteStamina();
             }
@@ -84,6 +84,57 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
+    public void RegenerateStamina()
+    {
+        if (isExhausted && initialStamina != stamina)
+        {
+            stamina += staminaRegenerationRate * 2 * Time.deltaTime;
+            if (stamina >= initialStamina)
+            {
+                stamina = initialStamina;
+                isExhausted = false;
+                agent.isStopped = false;
+            }
+        }
+        else
+        {
+            stamina += staminaRegenerationRate * Time.deltaTime;
+            if (stamina >= initialStamina)
+            {
+                stamina = initialStamina;
+            }
+        }
+    }
+
+    public int GetSpeedValue()
+    {
+        return (int)agent.speed;
+    }
+
+    public int GetAngularSpeedValue()
+    {
+        return (int)agent.angularSpeed;
+    }
+
+    public int GetInitialStaminaValue()
+    {
+        return (int)initialStamina;
+    }
+
+    public int GetCurrentStaminaValue()
+    {
+        return (int)stamina;
+    }
+
+    public void FollowPlayer()
+    {
+        if (stamina != initialStamina)
+        {
+            RegenerateStamina();
+        }
+        agent.destination = playerToFollow.transform.position;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Follower" && isChosen)
@@ -109,37 +160,6 @@ public class CharacterMovement : MonoBehaviour
             other.GetComponent<NavMeshAgent>().destination = other.transform.position;
             other.GetComponent<NavMeshAgent>().isStopped = true;
         }
-    }
-
-    public void RegenerateStamina()
-    {
-        if (isExhausted && initialStamina != stamina)
-        {
-            stamina += staminaRegenerationRate * 2 * Time.deltaTime;
-            if (stamina >= initialStamina)
-            {
-                stamina = initialStamina;
-                isExhausted = false;
-                agent.isStopped = false;
-            }
-        }
-        else
-        {
-            stamina += staminaRegenerationRate * Time.deltaTime;
-            if (stamina >= initialStamina)
-            {
-                stamina = initialStamina;
-            }
-        }
-    }
-
-    public void FollowPlayer()
-    {
-        if (stamina != initialStamina)
-        {
-            RegenerateStamina();
-        }
-        agent.destination = playerToFollow.transform.position;
     }
 
 }
