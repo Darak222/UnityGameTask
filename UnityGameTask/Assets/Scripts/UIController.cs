@@ -108,7 +108,6 @@ public class UIController : MonoBehaviour
                 character.isChosen = false;
                 character.tag = "Follower";
                 character.playerToFollow = charactersList[index];
-                character.GetComponent<NavMeshAgent>().destination = character.transform.position;
             }
         }
     }
