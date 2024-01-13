@@ -171,6 +171,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a1df6e2be220524b9208b7b6535440b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterConfig: {fileID: 0}
+  characterConfig: {fileID: 11400000, guid: 388e381e914cc214fb0f6f88089448cb, type: 2}
   isChosen: 0
   playerToFollow: {fileID: 0}

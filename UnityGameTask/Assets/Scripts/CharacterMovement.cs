@@ -10,6 +10,7 @@ public class CharacterMovement : MonoBehaviour
 {
     [SerializeField] CharacterConfigSO characterConfig;
 
+    [Header("Character Settings")]
     [SerializeField] public bool isChosen = false;
     [SerializeField] public GameObject playerToFollow;
 
@@ -22,6 +23,7 @@ public class CharacterMovement : MonoBehaviour
 
     private NavMeshAgent agent;
     
+    //Generate and assign statistics to the character
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -33,6 +35,7 @@ public class CharacterMovement : MonoBehaviour
         staminaRegenerationRate = characterConfig.GetStaminaRegenerationRate();
     }
 
+    //Player and following characters movement
     void Update()
     {
         if (isChosen){
@@ -57,6 +60,7 @@ public class CharacterMovement : MonoBehaviour
 
     }
 
+    //Player movement
     private void MoveToPoint()
     {
         if (EventSystem.current.IsPointerOverGameObject())
@@ -73,6 +77,7 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
+    //Stamina functionality
     private void DepleteStamina()
     {
         stamina -= exhaustionRate * Time.deltaTime;
@@ -106,6 +111,7 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
+    //Following character movement
     public void FollowPlayer()
     {
         if (stamina != initialStamina)
@@ -115,6 +121,7 @@ public class CharacterMovement : MonoBehaviour
         agent.destination = playerToFollow.transform.position;
     }
 
+    //Statistics getters
     public int GetSpeedValue()
     {
         return (int)agent.speed;
@@ -135,6 +142,7 @@ public class CharacterMovement : MonoBehaviour
         return (int)stamina;
     }
 
+    //Triggers
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Follower" && isChosen)

@@ -25,6 +25,7 @@ public class UIController : MonoBehaviour
     Camera mainCamera;
     CharacterMovement chosenCharacter;
 
+    //Initialize camera, buttons and player character on start
     void Awake()
     {
         mainCamera = FindObjectOfType<Camera>();
@@ -42,6 +43,7 @@ public class UIController : MonoBehaviour
         DisplayStats();
     }
 
+    //Button initialization
     private void InitializeButtons()
     {
         for(int i = 0; i < characterSelectionButtons.Length; i++)
@@ -54,6 +56,7 @@ public class UIController : MonoBehaviour
         }
     }
 
+    //Player character getter
     private void GetChosenCharacter()
     {
         for(int i = 0; i < charactersList.Count; i++)
@@ -67,6 +70,7 @@ public class UIController : MonoBehaviour
         }
     }
 
+    //Player changing character
     public void ChoseCharacter(int index)
     {
         SetNewButtonState(index);
@@ -76,6 +80,7 @@ public class UIController : MonoBehaviour
         SetStaminaBarMaxValue();
     }
 
+    //Pause menu methods
     public void PauseMenu()
     {
         Time.timeScale = 0;
@@ -92,6 +97,7 @@ public class UIController : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
+    //Change character methods
     private void SetNewButtonState(int index)
     {
         for (int i = 0; i < characterSelectionButtons.Length; i++)
@@ -123,9 +129,9 @@ public class UIController : MonoBehaviour
             else
             {
                 character.isChosen = false;
-                character.tag = "Follower";
                 character.playerToFollow = charactersList[index];
                 character.GetComponent<NavMeshAgent>().destination = charactersList[index].transform.position;
+                character.tag = "Follower";
             }
         }
     }

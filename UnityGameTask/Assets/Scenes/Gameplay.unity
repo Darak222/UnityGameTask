@@ -486,10 +486,6 @@ PrefabInstance:
       propertyPath: playerToFollow
       value: 
       objectReference: {fileID: 526047221}
-    - target: {fileID: 3762428518914136077, guid: fac0e7ae3b2096141b4e0661d8547e1d, type: 3}
-      propertyPath: characterConfig
-      value: 
-      objectReference: {fileID: 11400000, guid: de62d8c53a8173a4dbef242e15b2c9cc, type: 2}
     - target: {fileID: 7736706130550367143, guid: fac0e7ae3b2096141b4e0661d8547e1d, type: 3}
       propertyPath: m_Name
       value: Character3
@@ -555,10 +551,6 @@ PrefabInstance:
       propertyPath: playerToFollow
       value: 
       objectReference: {fileID: 526047221}
-    - target: {fileID: 3762428518914136077, guid: e1345e8e81334de4ab07fe34d9f7e8d0, type: 3}
-      propertyPath: characterConfig
-      value: 
-      objectReference: {fileID: 11400000, guid: de62d8c53a8173a4dbef242e15b2c9cc, type: 2}
     - target: {fileID: 7736706130550367143, guid: e1345e8e81334de4ab07fe34d9f7e8d0, type: 3}
       propertyPath: m_Name
       value: Character2
