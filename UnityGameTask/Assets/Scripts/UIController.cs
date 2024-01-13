@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class UIController : MonoBehaviour
@@ -75,6 +76,22 @@ public class UIController : MonoBehaviour
         SetStaminaBarMaxValue();
     }
 
+    public void PauseMenu()
+    {
+        Time.timeScale = 0;
+    }
+
+    public void ResumeGame()
+    {
+        Time.timeScale = 1;
+    }
+
+    public void BackToMenu()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene("MainMenu");
+    }
+
     private void SetNewButtonState(int index)
     {
         for (int i = 0; i < characterSelectionButtons.Length; i++)
@@ -108,6 +125,7 @@ public class UIController : MonoBehaviour
                 character.isChosen = false;
                 character.tag = "Follower";
                 character.playerToFollow = charactersList[index];
+                character.GetComponent<NavMeshAgent>().destination = charactersList[index].transform.position;
             }
         }
     }

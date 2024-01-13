@@ -106,6 +106,15 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
+    public void FollowPlayer()
+    {
+        if (stamina != initialStamina)
+        {
+            RegenerateStamina();
+        }
+        agent.destination = playerToFollow.transform.position;
+    }
+
     public int GetSpeedValue()
     {
         return (int)agent.speed;
@@ -124,15 +133,6 @@ public class CharacterMovement : MonoBehaviour
     public int GetCurrentStaminaValue()
     {
         return (int)stamina;
-    }
-
-    public void FollowPlayer()
-    {
-        if (stamina != initialStamina)
-        {
-            RegenerateStamina();
-        }
-        agent.destination = playerToFollow.transform.position;
     }
 
     private void OnTriggerEnter(Collider other)
